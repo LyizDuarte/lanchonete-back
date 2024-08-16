@@ -10,7 +10,7 @@ class SessionController {
 
     const emailOrPasswordIncorrect = () => {
       return res.status(401).json('Email ou senha incorretos!');
-    };
+    }; //função para retorna mensagem de erro
 
     if (!(await schema.isValid(req.body))) return emailOrPasswordIncorrect();
     //verifica se os dados são validos
@@ -21,12 +21,12 @@ class SessionController {
       where: { email },
     }); //procura um email igual o enviado no corpo de requisição
 
-    if (!user) return emailOrPasswordIncorrect();
+    if (!user) return emailOrPasswordIncorrect(); //se não existir o email retorna um erro
 
     if (!(await user.checkPassword(password)))
-      return emailOrPasswordIncorrect();
+      return emailOrPasswordIncorrect(); //se a senha estiver incorreta retorna um erro
 
-    return res.json({ id: user.id, email, name: user.name, admin: user.admin }); //se email ou senha estiverem incorretos retorna um erro, se não retorna o usuario e seus dados
+    return res.json({ id: user.id, email, name: user.name, admin: user.admin }); //se estiver tudo certo retorna o user
   }
 }
 

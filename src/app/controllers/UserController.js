@@ -34,12 +34,11 @@ class UserController {
 
     const emailExists = await User.findOne({
       where: { email },
-    });
-    
+    }); //procura se já existe o email fornecido
+
     if (emailExists) {
       return res.status(400).json({ Error: 'Email já existe!' });
     }
-    console.log(emailExists);
 
     const user = await User.create({
       //chama o model User e usa uma função create para criar o usuario
