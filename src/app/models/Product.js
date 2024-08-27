@@ -6,13 +6,13 @@ class Product extends Model {
       {
         name: Sequelize.STRING,
         price: Sequelize.INTEGER,
-        category: Sequelize.STRING,
+        category_id: Sequelize.INTEGER,
         path: Sequelize.STRING,
         url: {
-          type: Sequelize.VIRTUAL,
+          type: Sequelize.VIRTUAL, //tipo virtual pois o campo não vai para o banco de dados
           get() {
             return `http://localhost:3000/product-file/${this.path}`;
-          },
+          }, //retorna como URL  o baseurl e o path(imagem);
         },
       },
       {

@@ -6,7 +6,7 @@ class ProductController {
     const schema = Yup.object().shape({
       name: Yup.string().required('É necessario inserir o nome do produto!'),
       price: Yup.number().required('É necessario inserir o preco do produto!'),
-      category: Yup.string().required(
+      category_id: Yup.number().required(
         'É necessario inserir a categoria do produto!'
       ),
     });
@@ -17,20 +17,19 @@ class ProductController {
       return res.status(400).json({ error: err.errors });
     }
 
-    const { filename: path } = req.file;
-    const { name, price, category } = req.body;
+    const { filename: path } = req.file; //pega o nome da imagem na requisicao
+    const { name, price, category_id } = req.body;
 
     const product = await Product.create({
       name,
       price,
-      category,
+      category_id,
       path,
     });
     return res.json(product);
   }
   async index(req, res) {
     const products = await Product.findAll();
-
     return res.json(products);
   }
 }

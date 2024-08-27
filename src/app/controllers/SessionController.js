@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth';
 
 class SessionController {
   async store(req, res) {
@@ -26,7 +28,15 @@ class SessionController {
     if (!(await user.checkPassword(password)))
       return emailOrPasswordIncorrect(); //se a senha estiver incorreta retorna um erro
 
-    return res.json({ id: user.id, email, name: user.name, admin: user.admin }); //se estiver tudo certo retorna o user
+    return res.json({
+      id: user.id,
+      email,
+      name: user.name,
+      admin: user.admin,
+      token: jwt.sign({ id: user.id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
+    }); //se estiver tudo certo retorna o user
   }
 }
 
